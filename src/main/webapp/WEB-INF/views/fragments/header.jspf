@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title><c:out value="${pageTitle}"/> | JavaWebMVC</title>
+        <link rel="stylesheet" href="<c:url value='/assets/site.css'/>">
+    </head>
+    <body>
+        <header>
+            <nav>
+                <a class="brand" href="<c:url value='/home'/>">JavaWebMVC</a>
+                <c:choose>
+                    <c:when test="${not empty pageContext.request.userPrincipal}">
+                        <a href="<c:url value='/home'/>">Home</a>
+                        <c:if test="${pageContext.request.isUserInRole('ADMIN')}">
+                            <a href="<c:url value='/admin/categories'/>">Categories</a>
+                            <a href="<c:url value='/admin/users'/>">Users</a>
+                        </c:if>
+                        <span class="spacer"></span>
+                        <span><c:out value="${pageContext.request.userPrincipal.name}"/></span>
+                        <form action="<c:url value='/logout'/>" method="post">
+                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+                            <button class="outline" type="submit">Logout</button>
+                        </form>
+                    </c:when>
+                    <c:otherwise>
+                        <span class="spacer"></span>
+                        <a href="<c:url value='/login'/>">Login</a>
+                        <a href="<c:url value='/register'/>">Register</a>
+                    </c:otherwise>
+                </c:choose>
+            </nav>
+        </header>
+        <main>
+            <c:if test="${not empty message}">
+                <div class="alert success">
+                    <c:out value="${message}"/>
+                </div>
+            </c:if>
+            <c:if test="${not empty error}">
+                <div class="alert error">
+                    <c:out value="${error}"/>
+                </div>
+            </c:if>
